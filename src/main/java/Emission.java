@@ -14,7 +14,7 @@ public class Emission {
     @Id
     private int id;
     private String country;
-    private String data; // Geändert von double year2023 zu String data
+    private String data; 
 
     public Emission() {}
 
@@ -40,16 +40,16 @@ public class Emission {
         this.country = country;
     }
 
-    public String getData() { // Geändert von getYear2023 zu getData
+    public String getData() { 
         return data;
     }
 
-    public void setData(String data) { // Geändert von setYear2023 zu setData
+    public void setData(String data) { 
         this.data = data;
     }
 
     @Override
     public String toString() {
-        return "Emission [id=" + id + ", country=" + country + ", data=" + data + "]"; // Geändert von year2023 zu data
+        return "Emission [id=" + id + ", country=" + country + ", data=" + data + "]"; 
     }
 }
