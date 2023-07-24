@@ -1,0 +1,20 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Co2 Daten aktuallisieren</title>
+         <link rel="stylesheet" type="text/css" media="screen" href="style.css"/>
+    </h:head>
+    <h:body>
+        <h1>Co2 Daten aktuallisieren</h1>
+        <h:form>
+            <!-- Fehlermeldungen-->
+            <h:messages/>
+            <h:selectOneMenu value="#{co2EmissionController.selectedCountry}">
+                <f:selectItems value="#{co2EmissionController.countries}" var="country" itemValue="#{country}" itemLabel="#{country}" />
+            </h:selectOneMenu>
+            <h:inputText value="#{co2EmissionController.latestEmission}" />
+            <h:commandButton value="Update" action="#{co2EmissionController.saveEmissions}" />
+             <h:commandButton value="Zurück zur Startseite" action="index" />
+        </h:form>
+    </h:body>
+</html>

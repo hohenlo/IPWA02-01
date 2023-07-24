@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+    <title>Like Hero To Zero</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="style.css"/>
+</h:head>
+
+<h:body>
+    <h1>Willkommen bei Like Hero To Zero</h1>
+
+    <h2>Co2 Emissionen</h2>
+
+    <p>Aktuelle CO2-Emissionen nach Ländern:</p>
+
+    <h:form>
+        <h:selectOneMenu value="#{co2EmissionController.selectedCountry}">
+            <f:selectItems value="#{co2EmissionController.countries}" var="country" itemValue="#{country}" itemLabel="#{country}"/>
+        </h:selectOneMenu>
+
+        <h:commandButton value="Ausführen" action="#{co2EmissionController.updateEmissions}"/>
+    </h:form>
+
+    <p><strong>Land: </strong>#{co2EmissionController.selectedCountry}</p>
+    <p><strong>Emissionen: </strong>#{co2EmissionController.latestEmission} Kilotonnen (kt)</p>
+
+    <h2>Login für berechtigte Wissenschaftler</h2>
+    <h:form>
+        
+        <h:messages globalOnly="true" showDetail="true" styleClass="errorMessages"/>
+
+        <h:panelGrid columns="2">
+            <h:outputLabel for="username" value="Username:"/>
+            <h:inputText id="username" value="#{loginController.username}"/>
+
+            <h:outputLabel for="password" value="Password:"/>
+            <h:inputSecret id="password" value="#{loginController.password}"/>
+
+            <h:commandButton value="Login" action="#{loginController.login}"/>
+        </h:panelGrid>
+    </h:form>
+</h:body>
+
+</html>
