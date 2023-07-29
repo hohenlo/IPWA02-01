@@ -5,42 +5,65 @@
 
 <h:head>
     <title>Like Hero To Zero</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" media="screen" href="style.css"/>
 </h:head>
 
 <h:body>
-    <h1>Willkommen bei Like Hero To Zero</h1>
+    <div class="container">
+        <h1 class="text-center mt-5 mb-4">Willkommen bei Like Hero To Zero</h1>
 
-    <h2>Co2 Emissionen</h2>
+        <h2>Co2 Emissionen</h2>
 
-    <p>Aktuelle CO2-Emissionen nach Ländern:</p>
+        <p>Aktuelle Co2-Emissionen nach Ländern und Jahr:</p>
 
-    <h:form>
-        <h:selectOneMenu value="#{co2EmissionController.selectedCountry}">
-            <f:selectItems value="#{co2EmissionController.countries}" var="country" itemValue="#{country}" itemLabel="#{country}"/>
-        </h:selectOneMenu>
+        <div class="card mb-4">
+            <div class="card-body">
+                <h:form>
+                    <div class="form-group">
+                        <h:selectOneMenu value="#{co2EmissionController.selectedCountry}" styleClass="form-control">
+                            <f:selectItems value="#{co2EmissionController.countries}" var="country" itemValue="#{country}" itemLabel="#{country}"/>
+                        </h:selectOneMenu>
+                    </div>
 
-        <h:commandButton value="Ausführen" action="#{co2EmissionController.updateEmissions}"/>
-    </h:form>
+                    <div class="form-group">
+                        <h:selectOneMenu value="#{co2EmissionController.selectedYear}" styleClass="form-control">
+                            <f:selectItems value="#{co2EmissionController.years}" var="year" itemValue="#{year}" itemLabel="#{year}"/>
+                        </h:selectOneMenu>
+                    </div>
 
-    <p><strong>Land: </strong>#{co2EmissionController.selectedCountry}</p>
-    <p><strong>Emissionen: </strong>#{co2EmissionController.latestEmission} Kilotonnen (kt)</p>
+                    <div class="form-group">
+                        <h:commandButton value="Ausführen" action="#{co2EmissionController.loadEmissionsForSelectedYearAndCountry}" styleClass="btn btn-success"/>
+                    </div>
+                </h:form>
+            </div>
+        </div>
 
-    <h2>Login für berechtigte Wissenschaftler</h2>
-    <h:form>
-        
-        <h:messages globalOnly="true" showDetail="true" styleClass="errorMessages"/>
+        <div class="bg-light p-4">
+            <p><strong>Land: </strong>#{co2EmissionController.selectedCountry}</p>
+            <p><strong>Jahr: </strong>#{co2EmissionController.selectedYear}</p>
+            <p><strong>Emissionen: </strong>#{co2EmissionController.latestEmission} Kilotonnen (kt)</p>
+        </div>
 
-        <h:panelGrid columns="2">
-            <h:outputLabel for="username" value="Username:"/>
-            <h:inputText id="username" value="#{loginController.username}"/>
+        <h2 class="mt-5">Login für berechtigte Wissenschaftler</h2>
+        <h:form>
+            <h:messages globalOnly="true" showDetail="true" styleClass="errorMessages"/>
 
-            <h:outputLabel for="password" value="Password:"/>
-            <h:inputSecret id="password" value="#{loginController.password}"/>
+            <div class="form-group">
+                <h:outputLabel for="username" value="Username:"/>
+                <h:inputText id="username" value="#{loginController.username}" styleClass="form-control"/>
+            </div>
 
-            <h:commandButton value="Login" action="#{loginController.login}"/>
-        </h:panelGrid>
-    </h:form>
+            <div class="form-group">
+                <h:outputLabel for="password" value="Password:"/>
+                <h:inputSecret id="password" value="#{loginController.password}" styleClass="form-control"/>
+            </div>
+
+            <div class="form-group">
+                <h:commandButton value="Login" action="#{loginController.login}" styleClass="btn btn-success"/>
+            </div>
+        </h:form>
+    </div>
 </h:body>
 
 </html>

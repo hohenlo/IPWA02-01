@@ -4,32 +4,37 @@
  */
 
 
-
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.context.FacesContext;
+import jakarta.persistence.NoResultException;
 import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Calendar;
 
 @Named("co2EmissionController")
 @RequestScoped
 public class Co2EmissionController {
     private String selectedCountry;
-    private String latestEmission;
+    private int selectedYear;
+    private float latestEmission;
     private List<String> countries;
+    private List<Integer> years;
 
     @PersistenceContext(unitName = "my_persistence_unit")
     private EntityManager em;
 
     public Co2EmissionController() {
-        System.out.println("Co2EmissionController was instantiated.");
         countries = new ArrayList<>();
-        selectedCountry = null; 
+        years = new ArrayList<>();
+        selectedCountry = null;
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        for (int i = 0; i < 20; i++) {
+            years.add(currentYear - i);
+        }
     }
 
     @PostConstruct
@@ -42,10 +47,8 @@ public class Co2EmissionController {
         try {
             List<Emission> results = em.createQuery("SELECT e FROM Emission e", Emission.class).getResultList();
             for (Emission e : results) {
-                countries.add(e.getCountry());
-                if (selectedCountry == null) {
-                    selectedCountry = e.getCountry(); // setze das erste Land als das ausgewählte Land
-                    latestEmission = e.getData(); // setze die Emissionen für das ausgewählte Land
+                if (!countries.contains(e.getCountry())) {
+                    countries.add(e.getCountry());
                 }
             }
         } catch (Exception e) {
@@ -59,26 +62,21 @@ public class Co2EmissionController {
 
     public void setSelectedCountry(String selectedCountry) {
         this.selectedCountry = selectedCountry;
-        updateEmissions();
     }
 
-    public String getLatestEmission() {
+    public int getSelectedYear() {
+        return selectedYear;
+    }
+
+    public void setSelectedYear(int selectedYear) {
+        this.selectedYear = selectedYear;
+    }
+
+    public float getLatestEmission() {
         return latestEmission;
     }
 
-    public void setLatestEmission(String latestEmission) {
-        if(latestEmission == null || latestEmission.trim().isEmpty()) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Emissionsdaten müssen befüllt sein", null));
-            return;
-        }
-
-        try {
-            Double.parseDouble(latestEmission);
-        } catch (NumberFormatException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Emissionsdaten müssen eine Zahl sein", null));
-            return;
-        }
-
+    public void setLatestEmission(float latestEmission) {
         this.latestEmission = latestEmission;
     }
 
@@ -86,26 +84,39 @@ public class Co2EmissionController {
         return countries;
     }
 
-    public void updateEmissions() {
-        System.out.println("Update emissions method was called.");
-        Emission emission = em.createQuery("SELECT e FROM Emission e WHERE e.country = :country", Emission.class)
-                              .setParameter("country", selectedCountry)
-                              .getSingleResult();
-        if (emission != null) {
-            latestEmission = emission.getData();
+    public List<Integer> getYears() {
+        return years;
+    }
+
+    public void loadEmissionsForSelectedYearAndCountry() {
+        Emission emission;
+        try {
+            emission = em.createQuery("SELECT e FROM Emission e WHERE e.country = :country AND e.year = :year", Emission.class)
+                      .setParameter("country", selectedCountry)
+                      .setParameter("year", selectedYear)
+                      .getSingleResult();
+        } catch (NoResultException e) {
+            latestEmission = 0;
+            return;
         }
+        latestEmission = emission.getData();
     }
 
     @Transactional
     public void saveEmissions() {
-        System.out.println("Save emissions method was called.");
-        Emission emission = em.createQuery("SELECT e FROM Emission e WHERE e.country = :country", Emission.class)
-                              .setParameter("country", selectedCountry)
-                              .getSingleResult();
-        if (emission != null) {
-            emission.setData(latestEmission);
+        Emission emission;
+        try {
+            emission = em.createQuery("SELECT e FROM Emission e WHERE e.country = :country AND e.year = :year", Emission.class)
+                      .setParameter("country", selectedCountry)
+                      .setParameter("year", selectedYear)
+                      .getSingleResult();
+        } catch (NoResultException e) {
+            emission = new Emission();
+            emission.setCountry(selectedCountry);
+            emission.setYear(selectedYear);
             em.persist(emission);
-            em.flush();
         }
+        emission.setData(latestEmission);
+        em.flush();
     }
 }

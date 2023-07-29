@@ -14,14 +14,16 @@ public class Emission {
     @Id
     private int id;
     private String country;
-    private String data; 
+    private float data; 
+    private int year;  // Das neue "year" Feld
 
     public Emission() {}
 
-    public Emission(int id, String country, String data) {
+    public Emission(int id, String country, float data, int year) {
         this.id = id;
         this.country = country;
         this.data = data;
+        this.year = year;
     }
 
     public int getId() {
@@ -40,16 +42,24 @@ public class Emission {
         this.country = country;
     }
 
-    public String getData() { 
-        return data;
+    public float getData() { 
+    return data;
+}
+
+    public void setData(float data) { 
+    this.data = data;
+}
+    
+    public int getYear() {
+        return year;
     }
 
-    public void setData(String data) { 
-        this.data = data;
+    public void setYear(int year) {
+        this.year = year;
     }
 
     @Override
     public String toString() {
-        return "Emission [id=" + id + ", country=" + country + ", data=" + data + "]"; 
+        return "Emission [id=" + id + ", country=" + country + ", data=" + data + ", year=" + year + "]"; 
     }
 }

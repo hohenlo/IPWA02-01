@@ -8,55 +8,25 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 */
 
 
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f2f2f2;
-  color: #333;
+
+
+/* Responsives Design */
+@media (max-width: 768px) {
+  .container {
+    max-width: 90%;
+  }
 }
 
-h1 {
-  font-size: 24px;
-  color: #333;
-  margin-bottom: 20px;
+/* Stile für Bootstrap-Komponenten */
+.container {
+  margin: 0 auto;
 }
 
-h2 {
-  font-size: 18px;
-  color: #666;
+form .form-group {
   margin-bottom: 15px;
 }
 
-p {
-  font-size: 16px;
-  line-height: 1.5;
-  margin-bottom: 10px;
-}
-
-/* Formularstil */
-form {
-  margin-bottom: 20px;
-}
-
-label {
-  font-weight: bold;
-}
-
-input[type="text"],
-input[type="password"] {
-  width: 200px;
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-}
-
-select {
-  width: 200px;
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-}
-
-button {
+button.btn {
   padding: 8px 15px;
   background-color: #337ab7;
   color: #fff;
@@ -65,24 +35,7 @@ button {
   cursor: pointer;
 }
 
-button:hover {
+button.btn:hover {
   background-color: #23527c;
-}
-
-/* Containerstil */
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-/* Responsives Design */
-@media (max-width: 768px) {
-  .container {
-    max-width: 90%;
-  }
 }
 

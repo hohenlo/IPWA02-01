@@ -1,20 +1,40 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
     <h:head>
-        <title>Co2 Daten aktuallisieren</title>
+        <title>Co2 Daten aktualisieren</title>
          <link rel="stylesheet" type="text/css" media="screen" href="style.css"/>
+         <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"/>
     </h:head>
     <h:body>
-        <h1>Co2 Daten aktuallisieren</h1>
-        <h:form>
-            <!-- Fehlermeldungen-->
-            <h:messages/>
-            <h:selectOneMenu value="#{co2EmissionController.selectedCountry}">
-                <f:selectItems value="#{co2EmissionController.countries}" var="country" itemValue="#{country}" itemLabel="#{country}" />
-            </h:selectOneMenu>
-            <h:inputText value="#{co2EmissionController.latestEmission}" />
-            <h:commandButton value="Update" action="#{co2EmissionController.saveEmissions}" />
-             <h:commandButton value="Zurück zur Startseite" action="index" />
-        </h:form>
+        <div class="container">
+            <h1 class="mb-4">Co2 Daten aktualisieren</h1>
+            <h:form>
+                <h:messages styleClass="alert alert-danger"/>
+
+                <div class="mb-3">
+                    <h:outputLabel value="Land auswählen:" for="countrySelection" styleClass="form-label"/>
+                    <h:selectOneMenu id="countrySelection" value="#{co2EmissionController.selectedCountry}" styleClass="form-select">
+                        <f:selectItems value="#{co2EmissionController.countries}" var="country" itemValue="#{country}" itemLabel="#{country}" />
+                    </h:selectOneMenu>
+                </div>
+
+                <div class="mb-3">
+                    <h:outputLabel value="Jahr auswählen:" for="yearSelection" styleClass="form-label"/>
+                    <h:selectOneMenu id="yearSelection" value="#{co2EmissionController.selectedYear}" styleClass="form-select">
+                        <f:selectItems value="#{co2EmissionController.years}" var="year" itemValue="#{year}" itemLabel="#{year}" />
+                    </h:selectOneMenu>
+                </div>
+
+                <div class="mb-3">
+                    <h:outputLabel value="Co2-Emissionen eingeben:" for="emissionInput" styleClass="form-label"/>
+                    <h:inputText id="emissionInput" value="#{co2EmissionController.latestEmission}" styleClass="form-control" />
+                </div>
+
+                <div class="d-grid gap-2">
+                    <h:commandButton value="Update" action="#{co2EmissionController.saveEmissions}" styleClass="btn btn-success"/>
+                    <h:commandButton value="Zurück zur Startseite" action="index" styleClass="btn btn-secondary"/>
+                </div>
+            </h:form>
+        </div>
     </h:body>
 </html>
